@@ -19,3 +19,23 @@ def setup_driver():
     assert 'inventory' in driver.current_url
     yield driver
     driver.quit()
+
+@pytest.fixture(scope="function")
+def retry_on_failure():
+    for attempt in range(3):  # Maximum 3 attempts
+        try:
+            yield
+            break  # If test passes, break out of the loop
+        except Exception as e:
+            if attempt == 2:  # Last attempt
+                raise  # Re-raise the exception if all attempts failed
+            continue
+
+
+@pytest.fixture(scope="session")
+def test_products():
+    return [
+        ['Sauce Labs Bike Light', 'Sauce Labs Bolt T-Shirt'],
+        ['Sauce Labs Bike Light'],
+        ['Sauce Labs Bolt T-Shirt']
+    ]

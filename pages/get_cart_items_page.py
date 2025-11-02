@@ -1,8 +1,10 @@
 import time
+import pytest
 from selenium.webdriver.common.by import By
+from pages import go_to_cart_page
 from pages.go_to_cart_page import GoToCart
 
-
+@pytest.mark.dependency(depends=[go_to_cart_page])
 class GetCartItems:
     def __init__(self, driver):
         self.driver = driver
